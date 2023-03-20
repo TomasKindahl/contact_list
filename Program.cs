@@ -137,14 +137,7 @@
             newPerson.phone = attrs[2].Split(';');
             newPerson.address = attrs[3].Split(';');
             newPerson.birthdate = attrs[4];
-            for (int ix = 0; ix < contactList.Count; ix++)
-            {
-                if (contactList[ix] == null)
-                {
-                    contactList[ix] = newPerson;
-                    break;
-                }
-            }
+            contactList.Add(newPerson);
         }
         private static void PrintHelpMessage()
         {
