@@ -5,10 +5,17 @@
         static Person[] contactList = new Person[100];
         class Person
         {
-            public string persname, surname, phone, address, birthdate;
+            public string persname, surname, address, birthdate;
+            public string[] phone;
+            public string PhoneList
+            {
+                get { return String.Join(";", phone); }
+                private set { }
+            }
             public void Print()
             {
-                Console.WriteLine($"{persname} {surname}, {phone}, {address}, {birthdate}");
+                string phoneList = String.Join(", ", phone);
+                Console.WriteLine($"{persname} {surname}; {phoneList}; {address}; {birthdate}");
             }
         }
         public static void Main(string[] args)
@@ -96,7 +103,7 @@
                 foreach (Person p in contactList)
                 {
                     if (p != null)
-                        outfile.WriteLine($"{p.persname}|{p.surname}|{p.phone}|{p.address}|{p.birthdate}");
+                        outfile.WriteLine($"{p.persname}|{p.surname}|{p.PhoneList}|{p.address}|{p.birthdate}");
                 }
             }
         }
@@ -121,11 +128,12 @@
             newPerson.persname = attrs[0];
             newPerson.surname = attrs[1];
             string[] phones = attrs[2].Split(';'); 
-            newPerson.phone = phones[0];      // FIXME: this line drops all phone numbers except the first
+            newPerson.phone = phones;      // FIXME: this line drops all phone numbers except the first
             // foreach(string p in phones)
             //    newPerson.phone.Add(phones[i])
             string[] addresses = attrs[3].Split(';');
             newPerson.address = addresses[0]; // FIXME: this line drops all phone numbers except the first
+            newPerson.birthdate = attrs[4];
             for (int ix = 0; ix < contactList.Length; ix++)
             {
                 if (contactList[ix] == null)
