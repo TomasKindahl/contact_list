@@ -31,7 +31,7 @@
                             string line;
                             while ((line = infile.ReadLine()) != null)
                             {
-                                LoadContactListFromFile(line);
+                                LoadContactListFromFile(line); // Also prints the line loaded
                             }
                         }
                     }
@@ -43,7 +43,7 @@
                             string line;
                             while ((line = infile.ReadLine()) != null)
                             {
-                                LoadContactListFromFile(line);
+                                LoadContactListFromFile(line); // Also prints the line loaded
                             }
                         }
                     }
@@ -95,22 +95,22 @@
             } while (commandLine[0] != "quit");
         }
 
-        private static void LoadContactListFromFile(string line)
+        private static void LoadContactListFromFile(string lineFromAddressFile)
         {
-            Console.WriteLine(line);
-            string[] attrs = line.Split('|');
-            Person p = new Person();
-            p.persname = attrs[0];
-            p.surname = attrs[1];
+            Console.WriteLine(lineFromAddressFile); // INTE: 
+            string[] attrs = lineFromAddressFile.Split('|');
+            Person newPerson = new Person();
+            newPerson.persname = attrs[0];
+            newPerson.surname = attrs[1];
             string[] phones = attrs[2].Split(';');
-            p.phone = phones[0];
+            newPerson.phone = phones[0];      // FIXME: this line drops all phone numbers except the first
             string[] addresses = attrs[3].Split(';');
-            p.address = addresses[0];
+            newPerson.address = addresses[0]; // FIXME: this line drops all phone numbers except the first
             for (int ix = 0; ix < contactList.Length; ix++)
             {
                 if (contactList[ix] == null)
                 {
-                    contactList[ix] = p;
+                    contactList[ix] = newPerson;
                     break;
                 }
             }
