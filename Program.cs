@@ -6,6 +6,10 @@
         class Person
         {
             public string persname, surname, phone, address, birthdate;
+            public void Print()
+            {
+                Console.WriteLine($"{persname} {surname}, {phone}, {address}, {birthdate}");
+            }
         }
         public static void Main(string[] args)
         {
@@ -18,8 +22,17 @@
                 commandLine = Console.ReadLine().Split(' ');
                 if (commandLine[0] == "quit")
                 {
-                    // NYI!
+                    // NYI: safe quit
                     Console.WriteLine("Not yet implemented: safe quit");
+                }
+                // NYI: IMPORTANT
+                else if (commandLine[0] == "list")
+                {
+                    foreach(Person p in contactList)
+                    {
+                        if(p != null)
+                            p.Print();
+                    }
                 }
                 else if (commandLine[0] == "load")
                 {
@@ -39,18 +52,11 @@
                 {
                     if (commandLine.Length < 2)
                     {
-                        using (StreamWriter outfile = new StreamWriter(lastFileName))
-                        {
-                            foreach (Person p in contactList)
-                            {
-                                if (p != null)
-                                    outfile.WriteLine($"{p.persname}|{p.surname}|{p.phone}|{p.address}|{p.birthdate}");
-                            }
-                        }
+                        SaveContactListToFile(lastFileName);
                     }
                     else
                     {
-                        // NYI!
+                        // NYI: Copy code from 'load' if-else branch
                         Console.WriteLine("Not yet implemented: save /file/");
                     }
                 }
@@ -64,6 +70,7 @@
                         string surname = Console.ReadLine();
                         Console.Write("phone: ");
                         string phone = Console.ReadLine();
+                        // NYI: insert into contactList!!
                     }
                     else
                     {
@@ -80,6 +87,18 @@
                     Console.WriteLine($"Unknown command: '{commandLine[0]}'");
                 }
             } while (commandLine[0] != "quit");
+        }
+
+        private static void SaveContactListToFile(string lastFileName)
+        {
+            using (StreamWriter outfile = new StreamWriter(lastFileName))
+            {
+                foreach (Person p in contactList)
+                {
+                    if (p != null)
+                        outfile.WriteLine($"{p.persname}|{p.surname}|{p.phone}|{p.address}|{p.birthdate}");
+                }
+            }
         }
 
         private static void LoadContactListFromFile(string lastFileName)
@@ -101,8 +120,10 @@
             Person newPerson = new Person();
             newPerson.persname = attrs[0];
             newPerson.surname = attrs[1];
-            string[] phones = attrs[2].Split(';');
+            string[] phones = attrs[2].Split(';'); 
             newPerson.phone = phones[0];      // FIXME: this line drops all phone numbers except the first
+            // foreach(string p in phones)
+            //    newPerson.phone.Add(phones[i])
             string[] addresses = attrs[3].Split(';');
             newPerson.address = addresses[0]; // FIXME: this line drops all phone numbers except the first
             for (int ix = 0; ix < contactList.Length; ix++)
