@@ -26,26 +26,13 @@
                     if (commandLine.Length < 2)
                     {
                         lastFileName = "address.lis";
-                        using (StreamReader infile = new StreamReader(lastFileName))
-                        {
-                            string line;
-                            while ((line = infile.ReadLine()) != null)
-                            {
-                                LoadContactListFromFile(line); // Also prints the line loaded
-                            }
-                        }
+                        LoadContactListFromFile(lastFileName);
                     }
                     else
                     {
-                        lastFileName = commandLine[1];
-                        using (StreamReader infile = new StreamReader(lastFileName))
-                        {
-                            string line;
-                            while ((line = infile.ReadLine()) != null)
-                            {
-                                LoadContactListFromFile(line); // Also prints the line loaded
-                            }
-                        }
+                        lastFileName = commandLine[1]; // commandLine[1] is the first argument
+                        // FIXME: Throws System.IO.FileNotFoundException: 
+                        LoadContactListFromFile(lastFileName);
                     }
                 }
                 else if (commandLine[0] == "save")
@@ -95,7 +82,19 @@
             } while (commandLine[0] != "quit");
         }
 
-        private static void LoadContactListFromFile(string lineFromAddressFile)
+        private static void LoadContactListFromFile(string lastFileName)
+        {
+            using (StreamReader infile = new StreamReader(lastFileName))
+            {
+                string line;
+                while ((line = infile.ReadLine()) != null)
+                {
+                    LoadContact(line); // Also prints the line loaded
+                }
+            }
+        }
+
+        private static void LoadContact(string lineFromAddressFile)
         {
             Console.WriteLine(lineFromAddressFile); // INTE: 
             string[] attrs = lineFromAddressFile.Split('|');
