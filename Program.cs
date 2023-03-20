@@ -57,7 +57,7 @@
                             foreach (Person p in contactList)
                             {
                                 if (p != null)
-                                    outfile.WriteLine($"{p.persname};{p.surname};{p.phone};{p.address};{p.birthdate}");
+                                    outfile.WriteLine($"{p.persname}|{p.surname}|{p.phone}|{p.address}|{p.birthdate}");
                             }
                         }
                     }
